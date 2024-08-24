@@ -18,3 +18,8 @@ type DataFetcher interface {
 type DataTransformer interface {
 	Transform(data []byte) ([]byte, error)
 }
+
+type StorageProvider interface {
+	UploadToStorage(data []byte, path string) error
+	Close()
+}
