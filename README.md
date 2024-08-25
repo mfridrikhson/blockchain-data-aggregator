@@ -8,13 +8,9 @@ Take-Home Exercise: Blockchain Data Aggregator for Marketplace Analytics
 
 `bigquery` module contains logic for creating, populating and calculating result table in BigQuery.
 
-`docs` directory contains data flow diagrams.
+`docs` directory contains diagrams.
 
 `scripts` directory contains miscellaneous Bash scripts.
-
-## Data Flow
-
-![Data Flow Diagram](/docs/data-flow.jpg)
 
 ## Usage
 
@@ -90,3 +86,57 @@ There are 2 options for running the logic on your machine:
       --ratesTableId rates\
       --resultTableId result
    ```
+
+## Data
+
+Data Flow:
+
+![Data Flow Diagram](/docs/data-flow.jpg)
+
+### Table Schemas
+
+Events table:
+
+| Column | Type |
+| --- | --- |
+| app | STRING |
+| ts | TIMESTAMP |
+| event | STRING |
+| project_id | INTEGER |
+| source | STRING |
+| ident | INTEGER |
+| user_id | STRING |
+| session_id | STRING |
+| country | STRING |
+| device_type | STRING |
+| device_os | STRING |
+| device_os_ver | STRING |
+| device_browser | STRING |
+| device_browser_ver | STRING |
+| props | JSON |
+| nums | JSON |
+
+Rates table:
+
+| Column | Type |
+| --- | --- |
+| date | DATE |
+| rate | FLOAT |
+| symbol | STRING |
+
+Result table:
+
+| Column | Type |
+| --- | --- |
+| date | DATE |
+| project_id | INTEGER |
+| num_transactions | INTEGER |
+| total_volume_usd | FLOAT |
+
+## Production Usage
+
+All the logic presented in this repository is ready to be used in a production environment. In a production environment `rates` module could be used to run on a schedule (using Cloud Scheduler, Airflow or similar service) to collect daily exchange rates. We could also schedule the `bigquery` module in a similar fashion, however I don't see much value in doing so using Go code as BigQuery provides tools for running [scheduled data transfers](https://cloud.google.com/bigquery/docs/cloud-storage-transfer) using which we can append new data to the existing tables.
+
+Possible architecture of the pipeline:
+
+![Possible Architecture](/docs/possible-architecture.jpg)
