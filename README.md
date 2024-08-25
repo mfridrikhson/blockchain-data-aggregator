@@ -12,6 +12,10 @@ Take-Home Exercise: Blockchain Data Aggregator for Marketplace Analytics
 
 `scripts` directory contains miscellaneous Bash scripts.
 
+## Data Flow
+
+![Data Flow Diagram](/docs/data-flow.jpg)
+
 ## Usage
 
 To run the pipeline please follow the steps outlined below. 
